@@ -1,33 +1,51 @@
-import { Controller, Get, Req, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Req, Put, Delete } from '@nestjs/common';
 import { Request } from 'express';
-import { CreatePurchase, ListPurchase ,GetId} from './dto';
+import { CreatePurchase, ListPurchase, GetId, PurchaseBase, UpdatePurchase } from './dto';
+import { PurchaseService } from './model/purchase.service';
 
 @Controller('purchase')
 export class PurchaseController {
+    constructor(private purchaseService: PurchaseService) { }
+
     @Get()
-    findAll(): ListPurchase {
-        const data = {
-            id: 1,
-            name: 'test',
-            quantity: 10,
-            purchaseDate: new Date(),
-            cost: 100
-        }
-        return data;
+    async findAll(): Promise<ListPurchase> {
+        const purchases = await this.purchaseService.findAll();
+        const count = purchases.length;
+        let sum = 0
+        purchases.forEach((purchase) => {
+            sum += purchase.cost
+        })
+
+        const resultData = {
+            sum: sum,
+            count: count,
+            purchase: purchases
+        };
+        return resultData
     }
-    @Get('week')
+    @Get('month/:month')
     findWeek(@Req() request: Request): string {
-        console.log(request);
+        console.log(request.params.month);
         return 'This is request test';
     }
     @Get(':id')
-    findQuery(@Param() params: GetId): string {
-        console.log(params.id);
-        return 'This is test find params';
+    async findQuery(@Param() params: GetId): Promise<PurchaseBase> {
+        return this.purchaseService.findOne(params.id)
     }
     @Post()
-    async create(@Body() createPurchase: CreatePurchase) {
-        console.log(createPurchase);
-        return 'This is test post api';
+    async create(@Body() createPurchase: CreatePurchase): Promise<CreatePurchase> {
+        createPurchase.purchaseDate = new Date();
+        return this.purchaseService.create(createPurchase);
+    }
+    @Put(':id')
+    update(@Req() request: Request) {
+        console.log(request.body)
+        const purchaseId = request.params.id;
+        return this.purchaseService.update(purchaseId, request.body);
+    }
+    @Delete(':id')
+    delete(@Req() request: Request) {
+        const purchaseId = request.params.id;
+        return this.purchaseService.delete(purchaseId);
     }
 }

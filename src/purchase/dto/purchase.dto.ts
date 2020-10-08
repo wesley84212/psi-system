@@ -1,44 +1,50 @@
-import {IsInt, IsDate} from "class-validator";
+import { IsInt, IsDate } from "class-validator";
 
 interface purchase {
-    readonly name: string;
-    readonly quantity: number;
-    readonly purchaseDate: Date;
-    readonly cost: number;
+    name: string;
+    quantity: number;
+    purchaseDate: Date;
+    cost: number;
 }
 
 export class GetId {
-    readonly id:number;
+    readonly id: string;
 }
 
-export class ListPurchase implements purchase {
-    readonly id:number;
-    readonly name: string;
+export class PurchaseBase implements purchase {
+    readonly id: number;
+    name: string;
     @IsInt()
-    readonly quantity: number;
+    quantity: number;
     @IsDate()
-    readonly purchaseDate: Date;
+    purchaseDate: Date;
     @IsInt()
-    readonly cost: number;
+    cost: number;
+}
+
+export class ListPurchase {
+    sum?: number;
+    count?: number;
+    purchase: PurchaseBase[];
 }
 
 export class CreatePurchase {
-    readonly name: string;
+    name: string;
     @IsInt()
-    readonly quantity: number;
+    quantity: number;
     @IsDate()
-    readonly purchaseDate: Date;
+    purchaseDate: Date;
     @IsInt()
-    readonly cost: number;
+    cost: number;
 }
 
 export class UpdatePurchase {
-    readonly id:number;
-    readonly name: string;
+    readonly id: number;
+    name: string;
     @IsInt()
-    readonly quantity: number;
+    quantity: number;
     @IsDate()
-    readonly purchaseDate: Date;
+    purchaseDate: Date;
     @IsInt()
-    readonly cost: number;
+    cost: number;
 }
