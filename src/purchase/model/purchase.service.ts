@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Purchase } from '../../entity/purchase.entity';
 import { Repository } from 'typeorm';
-import { ListPurchase, CreatePurchase } from '../dto';
+import { CreatePurchase } from '../dto';
 
 @Injectable()
 export class PurchaseService {
-    constructor(@InjectRepository(Purchase)
-    private readonly repo: Repository<Purchase>) { }
+    constructor(
+        @InjectRepository(Purchase)
+        private readonly repo: Repository<Purchase>
+    ) { }
 
     public async findAll(): Promise<Purchase[]> {
         return await this.repo.find();

@@ -1,19 +1,25 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Purchase {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 500 })
-  name: string;
+  @Column('int')
+  productId: number;
 
   @Column('int')
   quantity: number;
 
-  @Column()
+  @Column('datetime2')
   purchaseDate: Date;
 
   @Column('int')
   cost: number;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date;
+
+  @CreateDateColumn({ name: 'updated_at' })
+  UpdatedAt!: Date;
 }
