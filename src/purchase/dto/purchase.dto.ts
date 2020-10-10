@@ -1,7 +1,7 @@
 import { IsInt, IsDate } from "class-validator";
 
 interface purchase {
-    name: string;
+    // name: string;
     quantity: number;
     purchaseDate: Date;
     cost: number;
@@ -13,7 +13,9 @@ export class GetId {
 
 export class PurchaseBase implements purchase {
     readonly id: number;
-    name: string;
+    name?: string;
+    @IsInt()
+    productId: number;
     @IsInt()
     quantity: number;
     @IsDate()
@@ -29,7 +31,9 @@ export class ListPurchase {
 }
 
 export class CreatePurchase {
-    name: string;
+    name?: string;
+    @IsInt()
+    productId: number;
     @IsInt()
     quantity: number;
     @IsDate()
@@ -40,7 +44,7 @@ export class CreatePurchase {
 
 export class UpdatePurchase {
     readonly id: number;
-    name: string;
+    // name: string;
     @IsInt()
     quantity: number;
     @IsDate()

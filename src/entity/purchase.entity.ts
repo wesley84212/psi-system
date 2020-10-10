@@ -11,7 +11,7 @@ export class Purchase {
   @Column('int')
   quantity: number;
 
-  @Column('datetime2')
+  @Column('date')
   purchaseDate: Date;
 
   @Column('int')

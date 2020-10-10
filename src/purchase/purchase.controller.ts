@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Body, Param, Req, Put, Delete } from '@nestjs/common';
 import { Request } from 'express';
 import { CreatePurchase, ListPurchase, GetId, PurchaseBase, UpdatePurchase } from './dto';
+import { ProductBase } from '../product/dto';
 import { PurchaseService } from './model/purchase.service';
+import { ProductService } from '../product/model/product.service';
 
 @Controller('purchase')
 export class PurchaseController {
-    constructor(private purchaseService: PurchaseService) { }
+    constructor(private purchaseService: PurchaseService, private productService: ProductService) { }
 
     @Get()
     async findAll(): Promise<ListPurchase> {
@@ -23,28 +25,30 @@ export class PurchaseController {
         };
         return resultData
     }
-    @Get('month/:month')
-    findWeek(@Req() request: Request): string {
-        console.log(request.params.month);
-        return 'This is request test';
-    }
     @Get(':id')
     async findQuery(@Param() params: GetId): Promise<PurchaseBase> {
         return this.purchaseService.findOne(params.id)
     }
     @Post()
     async create(@Body() createPurchase: CreatePurchase): Promise<CreatePurchase> {
+        let createProduct: ProductBase = {
+            name: ""
+        };
         createPurchase.purchaseDate = new Date();
-        return this.purchaseService.create(createPurchase);
+        createProduct.name = createPurchase.name;
+        const product = await this.productService.create(createProduct);
+        createPurchase.productId = product.id;
+        console.log(product)
+        return await this.purchaseService.create(createPurchase);
     }
     @Put(':id')
-    update(@Req() request: Request) {
+    async update(@Req() request: Request) {
         console.log(request.body)
         const purchaseId = request.params.id;
         return this.purchaseService.update(purchaseId, request.body);
     }
     @Delete(':id')
-    delete(@Req() request: Request) {
+    async delete(@Req() request: Request) {
         const purchaseId = request.params.id;
         return this.purchaseService.delete(purchaseId);
     }

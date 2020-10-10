@@ -14,7 +14,7 @@ export class Sale {
     @Column('int')
     saleCharge: number
 
-    @Column('datetime2')
+    @Column('date')
     saleDate!: Date;
 
     @CreateDateColumn({ name: 'created_at' })

@@ -1,1 +1,1 @@
-export * from './purchase.controller';
+export * from './purchase.module';
