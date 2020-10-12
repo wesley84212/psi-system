@@ -1,4 +1,5 @@
 import { IsInt, IsDate } from "class-validator";
+import { Product } from '../../entity/product.entity';
 
 interface purchase {
     // name: string;
@@ -14,8 +15,7 @@ export class GetId {
 export class PurchaseBase implements purchase {
     readonly id: number;
     name?: string;
-    @IsInt()
-    productId: number;
+    product: Product;
     @IsInt()
     quantity: number;
     @IsDate()
@@ -32,8 +32,7 @@ export class ListPurchase {
 
 export class CreatePurchase {
     name?: string;
-    @IsInt()
-    productId: number;
+    product: Product;
     @IsInt()
     quantity: number;
     @IsDate()

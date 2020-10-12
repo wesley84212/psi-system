@@ -51,7 +51,7 @@ export class PurchaseController {
     async create(@Body() purchaseData: CreatePurchase): Promise<CreatePurchase> {
         purchaseData.purchaseDate = new Date();
         const product = await this.createProduct(purchaseData);
-        purchaseData.productId = product.id;
+        purchaseData.product = product
         await this.createWareHouse(purchaseData);
         return await this.purchaseService.create(purchaseData);
     }

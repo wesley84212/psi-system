@@ -12,7 +12,7 @@ export class PurchaseService {
     ) { }
 
     public async findAll(): Promise<PurchaseBase[]> {
-        return await this.repo.find();
+        return await this.repo.find({ relations: ["product"] });
     }
     public async findOne(id: string): Promise<PurchaseBase> {
         return await this.repo.findOne(id);

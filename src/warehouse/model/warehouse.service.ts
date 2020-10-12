@@ -10,6 +10,9 @@ export class WarehouseService {
         private readonly repo: Repository<WareHouse>
     ) { }
 
+    public async findAll(): Promise<WareHousebase[]> {
+        return await this.repo.find();
+    }
     public async create(data: WareHousebase): Promise<WareHousebase> {
         return this.repo.save(data);
     }
