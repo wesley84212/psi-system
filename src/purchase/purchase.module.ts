@@ -4,9 +4,10 @@ import { PurchaseService } from './model/purchase.service';
 import { PurchaseController } from './purchase.controller';
 import { Purchase } from '../entity/purchase.entity';
 import { ProductModule } from '../product/product.module';
+import { WarehouseModule } from '../warehouse/warehouse.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Purchase]), ProductModule],
+    imports: [TypeOrmModule.forFeature([Purchase]), ProductModule, WarehouseModule],
     controllers: [PurchaseController],
     providers: [PurchaseService],
 })

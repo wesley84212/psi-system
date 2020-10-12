@@ -4,10 +4,28 @@ import { CreatePurchase, ListPurchase, GetId, PurchaseBase, UpdatePurchase } fro
 import { ProductBase } from '../product/dto';
 import { PurchaseService } from './model/purchase.service';
 import { ProductService } from '../product/model/product.service';
+import { WarehouseService } from '../warehouse/model/warehouse.service';
 
 @Controller('purchase')
 export class PurchaseController {
-    constructor(private purchaseService: PurchaseService, private productService: ProductService) { }
+    constructor(
+        private purchaseService: PurchaseService,
+        private productService: ProductService,
+        private warehouseService: WarehouseService
+    ) { }
+
+    async createProduct(purchaseData) {
+        const productDate: ProductBase = {
+            name: ""
+        };
+        productDate.name = purchaseData.name;
+        return await this.productService.create(productDate);
+    }
+    async createWareHouse(purchaseDate) {
+        const warehouseDate = purchaseDate;
+
+        return await this.warehouseService.create(warehouseDate);
+    }
 
     @Get()
     async findAll(): Promise<ListPurchase> {
@@ -30,16 +48,12 @@ export class PurchaseController {
         return this.purchaseService.findOne(params.id)
     }
     @Post()
-    async create(@Body() createPurchase: CreatePurchase): Promise<CreatePurchase> {
-        let createProduct: ProductBase = {
-            name: ""
-        };
-        createPurchase.purchaseDate = new Date();
-        createProduct.name = createPurchase.name;
-        const product = await this.productService.create(createProduct);
-        createPurchase.productId = product.id;
-        console.log(product)
-        return await this.purchaseService.create(createPurchase);
+    async create(@Body() purchaseData: CreatePurchase): Promise<CreatePurchase> {
+        purchaseData.purchaseDate = new Date();
+        const product = await this.createProduct(purchaseData);
+        purchaseData.productId = product.id;
+        await this.createWareHouse(purchaseData);
+        return await this.purchaseService.create(purchaseData);
     }
     @Put(':id')
     async update(@Req() request: Request) {
