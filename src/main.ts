@@ -1,11 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import "reflect-metadata";
-import { createConnection } from "typeorm";
 
 async function bootstrap() {
+  const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+
+  }
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  app.enableCors(corsOptions);
+  await app.listen(3006);
 }
-createConnection().catch(error => console.log(error))
 bootstrap();
