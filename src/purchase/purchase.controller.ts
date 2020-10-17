@@ -49,15 +49,25 @@ export class PurchaseController {
     }
     @Post()
     async create(@Body() purchaseData: CreatePurchase): Promise<CreatePurchase> {
-        purchaseData.purchaseDate = new Date();
         const product = await this.createProduct(purchaseData);
         purchaseData.product = product
         await this.createWareHouse(purchaseData);
         return await this.purchaseService.create(purchaseData);
     }
+    @Post('batch')
+    async createBatch(@Body() purchaseData: CreatePurchase[]){
+        let resultArray = []
+        purchaseData.forEach(async (data: CreatePurchase) => {
+            const product = await this.createProduct(data);
+            data.product = product
+            await this.createWareHouse(data);
+            let returnData = await this.purchaseService.create(data);
+            resultArray.push(returnData);
+        })
+        return resultArray
+    }
     @Put(':id')
     async update(@Req() request: Request) {
-        console.log(request.body)
         const purchaseId = request.params.id;
         return this.purchaseService.update(purchaseId, request.body);
     }

@@ -18,6 +18,9 @@ export class Purchase {
 
   @Column('int')
   cost: number;
+  
+  @Column('int')
+  status: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;

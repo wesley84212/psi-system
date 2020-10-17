@@ -22,6 +22,8 @@ export class PurchaseBase implements purchase {
     purchaseDate: Date;
     @IsInt()
     cost: number;
+    @IsInt()
+    status: number;
 }
 
 export class ListPurchase {
@@ -39,6 +41,8 @@ export class CreatePurchase {
     purchaseDate: Date;
     @IsInt()
     cost: number;
+    @IsInt()
+    status: number;
 }
 
 export class UpdatePurchase {

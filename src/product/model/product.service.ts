@@ -11,7 +11,6 @@ export class ProductService {
     ) { }
 
     public async create(input: ProductBase): Promise<Product> {
-        console.log(input)
         return this.repo.save(input);
     }
 }
