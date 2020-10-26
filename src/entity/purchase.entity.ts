@@ -1,3 +1,4 @@
+import { Sale } from './sale.entiry';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { Product } from '../entity/product.entity';
 
@@ -18,7 +19,7 @@ export class Purchase {
 
   @Column('int')
   cost: number;
-  
+
   @Column('int')
   status: number;
 
