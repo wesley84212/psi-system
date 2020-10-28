@@ -32,13 +32,22 @@ export class PurchaseController {
         const purchases = await this.purchaseService.findAll();
         const count = purchases.length;
         let sum = 0
+        let saleCharges = 0
+        let incomes = 0
+        let saleAmounts = 0
         purchases.forEach((purchase) => {
             sum += purchase.cost
+            saleCharges += purchase.saleCharge
+            incomes += purchase.income;
+            saleAmounts += purchase.saleAmount
         })
 
         const resultData = {
             sum: sum,
             count: count,
+            saleCharges: saleCharges,
+            income: incomes,
+            saleAmounts: saleAmounts,
             purchase: purchases
         };
         return resultData
@@ -55,13 +64,13 @@ export class PurchaseController {
         return await this.purchaseService.create(purchaseData);
     }
     @Post('batch')
-    async createBatch(@Body() purchaseData: CreatePurchase[]){
-        let resultArray = []
+    async createBatch(@Body() purchaseData: CreatePurchase[]) {
+        const resultArray = []
         purchaseData.forEach(async (data: CreatePurchase) => {
             const product = await this.createProduct(data);
             data.product = product
             await this.createWareHouse(data);
-            let returnData = await this.purchaseService.create(data);
+            const returnData = await this.purchaseService.create(data);
             resultArray.push(returnData);
         })
         return resultArray

@@ -2,7 +2,7 @@ import { IsInt, IsDate } from "class-validator";
 import { Product } from '../../entity/product.entity';
 
 interface purchase {
-    // name: string;
+    name?: string;
     quantity: number;
     purchaseDate: Date;
     cost: number;
@@ -24,6 +24,12 @@ export class PurchaseBase implements purchase {
     cost: number;
     @IsInt()
     status: number;
+    @IsInt()
+    saleCharge: number;
+    @IsInt()
+    income:number
+    @IsInt()
+    saleAmount:number
 }
 
 export class ListPurchase {
@@ -32,22 +38,21 @@ export class ListPurchase {
     purchase: PurchaseBase[];
 }
 
-export class CreatePurchase {
-    name?: string;
-    product: Product;
-    @IsInt()
-    quantity: number;
+export class Sale {
     @IsDate()
-    purchaseDate: Date;
+    saleDate?: Date;
     @IsInt()
-    cost: number;
+    saleAmount?: number;
     @IsInt()
-    status: number;
+    saleCharge?: number;
+}
+export class CreatePurchase extends PurchaseBase{
+    name?: string;
+    sales?: Sale;
 }
 
 export class UpdatePurchase {
     readonly id: number;
-    // name: string;
     @IsInt()
     quantity: number;
     @IsDate()

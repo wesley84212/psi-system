@@ -1,4 +1,3 @@
-import { Sale } from './sale.entiry';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { Product } from '../entity/product.entity';
 
@@ -15,10 +14,22 @@ export class Purchase {
   quantity: number;
 
   @Column('date')
+  saleDate: Date;
+
+  @Column('int')
+  saleAmount: number;
+
+  @Column('int')
+  saleCharge: number;
+
+  @Column('date')
   purchaseDate: Date;
 
   @Column('int')
   cost: number;
+
+  @Column('int')
+  income: number;
 
   @Column('int')
   status: number;

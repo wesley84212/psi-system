@@ -18,7 +18,8 @@ export class PurchaseService {
         return await this.repo.findOne(id);
     }
     public async create(data: CreatePurchase): Promise<PurchaseBase> {
-        return this.repo.save(data);
+        const newData = {...data,...data.sales}
+        return this.repo.save(newData);
     }
     public async update(id: string, data: PurchaseBase): Promise<PurchaseBase> {
         let targetPurchase = await this.repo.findOne(id);
