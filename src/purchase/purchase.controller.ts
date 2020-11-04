@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Req, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Req, Put, Delete, HttpStatus} from '@nestjs/common';
 import { Request } from 'express';
 import { CreatePurchase, ListPurchase, GetId, PurchaseBase } from './dto';
 import { ProductBase } from '../product/dto';
@@ -6,6 +6,7 @@ import { PurchaseService } from './model/purchase.service';
 import { ProductService } from '../product/model/product.service';
 import { WarehouseService } from '../warehouse/model/warehouse.service';
 import { SaleService } from '../sale/model/sale.service';
+import { ApiException } from '../util/api.exception';
 
 @Controller('purchase')
 export class PurchaseController {
@@ -40,19 +41,24 @@ export class PurchaseController {
 
     @Get()
     async findAll(): Promise<ListPurchase> {
-        const purchases = await this.purchaseService.findAll();
-        const count = purchases.length;
-        let costSum = 0
-        purchases.forEach((purchase) => {
-            costSum += purchase.cost
-        })
+        try {
+            const purchases = await this.purchaseService.findAll();
+            const count = purchases.length;
+            let costSum = 0
+            purchases.forEach((purchase) => {
+                costSum += purchase.cost
+            })
 
-        const resultData = {
-            costSum: costSum,
-            count: count,
-            purchase: purchases
-        };
-        return resultData
+            const resultData = {
+                costSum: costSum,
+                count: count,
+                purchase: purchases
+            };
+            return resultData
+        } catch (err) {
+            throw new ApiException(err, HttpStatus.FORBIDDEN);
+        }
+
     }
     @Get(':id')
     async findQuery(@Param() params: GetId): Promise<PurchaseBase> {
