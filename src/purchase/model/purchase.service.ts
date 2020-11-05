@@ -3,8 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Purchase } from '../../entity/purchase.entity';
 import { Repository } from 'typeorm';
 import { CreatePurchase, PurchaseBase } from '../dto';
-import { ApiErrorCode } from '../../util/errorCode.enum';
-import { ApiErrorMessage } from '../../util/errorMessage.enum';
 
 @Injectable()
 export class PurchaseService {
@@ -15,7 +13,14 @@ export class PurchaseService {
 
     public async findAll(): Promise<PurchaseBase[]> {
         // throw { errorCode: ApiErrorCode.UNKNOWERROR, message: ApiErrorMessage.UNKNOWERROR };
-        return await this.repo.find({ relations: ["product"] });
+        try {
+            return await this.repo.createQueryBuilder("purchase")
+                .leftJoinAndSelect("purchase.product", "product")
+                .orderBy("purchase.productId", "ASC")
+                .getMany();
+        }catch(err) {
+            console.log(err)
+        }
     }
     public async findOne(id: string): Promise<PurchaseBase> {
         return await this.repo.findOne(id);

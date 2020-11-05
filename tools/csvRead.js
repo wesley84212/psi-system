@@ -17,41 +17,51 @@ const filterFunc = (product) => {
     }
 }
 
-fs.readFile('./inputCsv10.csv', 'utf8', function (err, data) {
-    let dataArray = data.split(/\r?\n/);
-    let jsonData = []
-    dataArray = dataArray.map((product) => {
-        let productSp = product.split(',')
+const fileToJson = (fileName) => {
+    fs.readFile(`./${fileName}`, 'utf8', function (err, data) {
+        let dataArray = data.split(/\r?\n/);
+        let jsonData = []
+        dataArray.map((product) => {
+            let productSp = product.split(',')
+            return productSp
+        }).forEach((product) => {
+            if (filterFunc(product)) { return }
 
-        return productSp
-    }).forEach((product) => {
-        if (filterFunc(product)) { return }
-
-        let status = 1;
-        if (product[3] === '') {
-            status = 0
-        }
-        let productObject = {
-            "name": product[2],
-            "quantity": 1,
-            "cost": product[5],
-            "purchaseDate": `2020/${product[1]}`,
-            "status": status
-        };
-        if (status !== 0) {
-            productObject.sales = {
-                saleDate: `2020/${product[6]}`,
-                saleAmount: product[3],
-                saleCharge: product[4]
+            let status = 1;
+            if (product[3] === '') {
+                status = 0
             }
-            productObject.income = Number(productObject.sales.saleAmount) - (Number(productObject.cost) + Number(productObject.sales.saleCharge)) || 0;
-        }
-        jsonData.push(productObject)
-    })
-    fs.appendFile('./inputCsv10.json', JSON.stringify(jsonData), function (err) {
-        if (err)
-            console.log(err);
-        else
-            console.log('Append operation complete.');
+            let productObject = {
+                "name": product[2],
+                "quantity": 1,
+                "cost": product[5],
+                "purchaseDate": `2020/${product[1]}`,
+                "status": status
+            };
+            if (status !== 0) {
+                productObject.sales = {
+                    saleDate: `2020/${product[6]}`,
+                    saleAmount: product[3],
+                    saleCharge: product[4]
+                }
+                productObject.income = Number(productObject.sales.saleAmount) - (Number(productObject.cost) + Number(productObject.sales.saleCharge)) || 0;
+            }
+            jsonData.push(productObject)
+        })
+        fs.appendFile(`./${fileName}.json`, JSON.stringify(jsonData), function (err) {
+            if (err)
+                console.log(err);
+            else
+                console.log('Append operation complete.');
+        });
     });
+}
+
+fs.readdir('./', function (err, files) {
+    const fileArray = files.filter((data) => data.indexOf("inputCsv") > -1)
+    fileArray.forEach((fileName) => {
+        fileToJson(fileName)
+    })
+}, function (err) {
+    throw err;
 });
