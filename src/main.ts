@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { createConnection } from "typeorm";
 import "reflect-metadata";
 
 async function bootstrap() {
@@ -12,7 +13,11 @@ async function bootstrap() {
     credentials: true
   };
   app.enableCors(corsOptions);
-  
+
   await app.listen(process.env.PORT || 5000);
+  console.log(`Express application is up and running on port ${process.env.PORT}`);
 }
-bootstrap();
+
+createConnection().then(async connection => {
+  bootstrap();
+}).catch(error => console.log("TypeORM connection error: ", error));
