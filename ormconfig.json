@@ -5,6 +5,7 @@
     "password": "a08f7bd7",
     "database": "heroku_fba42906d9dcc21",
     "synchronize": true,
+    "keepConnectionAlive": true,
     "logging": false,
     "entities": [
        "src/entity/**/*.ts"
