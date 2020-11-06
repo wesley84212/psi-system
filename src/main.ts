@@ -17,7 +17,4 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 5000);
   console.log(`Express application is up and running on port ${process.env.PORT}`);
 }
-
-createConnection().then(async connection => {
-  bootstrap();
-}).catch(error => console.log("TypeORM connection error: ", error));
+bootstrap();

@@ -1,10 +1,10 @@
 {
     "type": "mysql",
-    "host": "us-cdbr-east-02.cleardb.com",
-    "username": "b4e1f65aa8fc3f",
-    "password": "a08f7bd7",
-    "database": "heroku_fba42906d9dcc21",
-    "synchronize": true,
+    "host": "127.0.0.1",
+    "username": "root",
+    "password": "root",
+    "database": "db",
+    "synchronize": false,
     "keepConnectionAlive": true,
     "logging": false,
     "entities": [
