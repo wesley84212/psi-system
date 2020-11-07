@@ -8,7 +8,7 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log']
   });
   const corsOptions = {
-    origin: ['http://114.25.224.195:3000','http://192.168.1.105:3000/','http://192.168.1.109:3006', "http://localhost:3000"],
+    origin: ['http://114.25.224.195:3000','http://192.168.1.105:3000/','http://192.168.1.109:3006', "http://localhost:3001"],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true
   };

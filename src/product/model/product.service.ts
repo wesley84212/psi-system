@@ -13,4 +13,14 @@ export class ProductService {
     public async create(input: ProductBase): Promise<Product> {
         return this.repo.save(input);
     }
+    public async update(id: string, data: ProductBase): Promise<Product> {
+        try {
+            let targetPurchase = await this.repo.findOne(id);
+            targetPurchase = { ...targetPurchase, ...data }
+            return await this.repo.save(targetPurchase);
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
 }

@@ -18,7 +18,7 @@ export class PurchaseService {
                 .leftJoinAndSelect("purchase.product", "product")
                 .orderBy("purchase.productId", "ASC")
                 .getMany();
-        }catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -29,9 +29,15 @@ export class PurchaseService {
         return this.repo.save(data);
     }
     public async update(id: string, data: PurchaseBase): Promise<PurchaseBase> {
-        let targetPurchase = await this.repo.findOne(id);
-        targetPurchase = { ...targetPurchase, ...data }
-        return await this.repo.save(targetPurchase);
+
+        try {
+            let targetPurchase = await this.repo.findOne(id);
+            targetPurchase = { ...targetPurchase, ...data }
+            return await this.repo.save(targetPurchase);
+        } catch (err) {
+            console.log(err)
+        }
+
     }
     public async delete(id: string): Promise<PurchaseBase> {
         const targetPurchase = await this.repo.findOne(id);

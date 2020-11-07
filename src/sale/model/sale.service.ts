@@ -16,4 +16,16 @@ export class SaleService {
     public async create(input: any): Promise<Sale> {
         return this.repo.save(input);
     }
+
+    // toDo dto file
+    public async update(id: string, data: any): Promise<Sale> {
+        try {
+            let targetPurchase = await this.repo.findOne(id);
+            targetPurchase = { ...targetPurchase, ...data }
+            return await this.repo.save(targetPurchase);
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
 }
