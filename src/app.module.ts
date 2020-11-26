@@ -11,6 +11,6 @@ import { SaleModule } from './sale/sale.module';
 @Module({
   imports: [TypeOrmModule.forRoot(), PurchaseModule, ProductModule, WarehouseModule, SaleModule],
   controllers: [AppController],
-  providers: [AppService, PurchaseModule],
+  providers: [AppService],
 })
 export class AppModule { }
