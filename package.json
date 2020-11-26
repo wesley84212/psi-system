@@ -6,7 +6,7 @@
    "private": true,
    "license": "UNLICENSED",
    "scripts": {
-      "heroku-prebuild": "echo start to copy config && cp ormconfig.json.serv ormconfig.json && ",
+      "heroku-prebuild": "echo start to copy config && cp ormconfig.json.serv ormconfig.json && npm install",
       "prebuild": "rimraf dist",
       "build": "nest build",
       "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
