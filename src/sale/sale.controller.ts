@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Param, Req, Put, Delete } from '@nestjs/common';
 import { SaleService } from '../sale/model/sale.service';
+import { Request } from 'express';
 
 @Controller('sale')
 export class SaleController {
@@ -22,5 +23,20 @@ export class SaleController {
             sales: sales
         };
         return resultData
+    }
+
+    @Post()
+    async create(@Body() saleData: any): Promise<any> {
+        try {
+            return await this.saleService.create(saleData);
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    @Put(':id')
+    async update(@Req() request: Request) {
+        const saleId = request.params.id;
+        return this.saleService.update(saleId, request.body);
     }
 }
