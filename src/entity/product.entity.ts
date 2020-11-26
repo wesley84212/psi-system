@@ -9,8 +9,8 @@ export class Product {
     name: string;
 
     @CreateDateColumn({ name: 'created_at' })
-    createdAt!: Date;
+    createdAt?: Date;
 
     @CreateDateColumn({ name: 'updated_at' })
-    UpdatedAt!: Date;
+    UpdatedAt?: Date;
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Req, Put, Delete } from '@nestjs/common';
+import { Controller, Get} from '@nestjs/common';
 import { WarehouseService } from './model/warehouse.service';
 import { WareHousebase } from './dto';
 @Controller('warehouse')

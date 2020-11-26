@@ -18,7 +18,7 @@ export class PurchaseService {
                 .leftJoinAndSelect("purchase.product", "product")
                 .orderBy("purchase.productId", "ASC")
                 .getMany();
-        }catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
