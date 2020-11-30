@@ -8,7 +8,7 @@ import { WarehouseModule } from '../warehouse/warehouse.module';
 import { SaleModule } from '../sale/sale.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Purchase]), ProductModule, forwardRef(() => WarehouseModule), forwardRef(() => SaleModule)],
+    imports: [TypeOrmModule.forFeature([Purchase]), WarehouseModule, SaleModule, ProductModule],
     controllers: [PurchaseController],
     providers: [PurchaseService],
     exports: [PurchaseService]

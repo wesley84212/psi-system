@@ -6,7 +6,7 @@ import { WareHouse } from '../entity/warehouse.entity'
 import { PurchaseModule } from '../purchase/purchase.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([WareHouse]), forwardRef(() => PurchaseModule)],
+  imports: [TypeOrmModule.forFeature([WareHouse])],
   controllers: [WarehouseController],
   providers: [WarehouseService],
   exports: [WarehouseService]
